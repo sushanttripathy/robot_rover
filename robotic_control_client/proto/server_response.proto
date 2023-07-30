@@ -1,0 +1,29 @@
+syntax = "proto2";
+import "control_request.proto";
+
+// Next ID: 3
+message CameraCapturedFrames {
+    optional bytes rgb_image = 1;
+    optional bytes depth_image = 2;
+}
+
+// Next ID: 6
+message ServerResponse {
+    optional uint64 request_timestamp = 1;
+    optional string request_uuid = 2;
+    optional bool success = 3;
+    // Next ID: 6
+    enum ResponseType {
+        UNKNOWN = 0;
+        INFORMATION = 1;
+        ERROR = 2;
+        IMAGE = 3;
+        SENSORS_DATA = 4;
+        IMAGES_AND_SENSORS_DATA = 5;
+    }
+    optional ResponseType response_type = 4;
+    optional string summary_message = 5;
+    optional string detailed_message = 6;
+    optional CameraCapturedFrames image_data = 7;
+    optional SensorsData sensors_data = 8;
+}
