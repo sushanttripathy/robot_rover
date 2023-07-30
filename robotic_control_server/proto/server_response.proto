@@ -1,0 +1,46 @@
+syntax = "proto2";
+import "control_request.proto";
+
+// Next Id: 5
+message ImageRoi {
+  optional uint32 x = 1;
+  optional uint32 y = 2;
+  optional uint32 width = 3;
+  optional uint32 height = 4;
+}
+
+// Next Id: 6
+message ImageAnnotation {
+  optional ImageRoi roi = 1;
+  optional uint32 annotation_id = 2;
+  optional string annotation_string = 3;
+};
+
+// Next Id: 5
+message CameraCapturedFrames {
+  optional bytes rgb_image = 1;
+  optional bytes depth_image = 2;
+  repeated ImageAnnotation rgb_annotation = 3;
+  repeated ImageAnnotation depth_annotation = 4;
+}
+
+// Next Id: 6
+message ServerResponse {
+  optional uint64 request_timestamp = 1;
+  optional string request_uuid = 2;
+  optional bool success = 3;
+  // Next Id: 6
+  enum ResponseType {
+    UNKNOWN = 0;
+    INFORMATION = 1;
+    ERROR = 2;
+    IMAGE = 3;
+    SENSORS_DATA = 4;
+    IMAGES_AND_SENSORS_DATA = 5;
+  }
+  optional ResponseType response_type = 4;
+  optional string summary_message = 5;
+  optional string detailed_message = 6;
+  optional CameraCapturedFrames image_data = 7;
+  optional SensorsData sensors_data = 8;
+}

@@ -1,0 +1,98 @@
+syntax = "proto2";
+
+// Next ID: 3
+message MotorSpeedValues {
+  optional int32 motor_1_speed = 1;
+  optional int32 motor_2_speed = 2;
+}
+
+message GyroScopeData {
+  optional float pitch = 1;
+  optional float yaw = 2;
+  optional float roll = 3;
+}
+
+message GravitySensorData {
+  optional float gravity_x = 1;
+  optional float gravity_y = 2;
+  optional float gravity_z = 3;
+}
+
+message EulerAngleData {
+  optional float angle_x = 1;
+  optional float angle_y = 2;
+  optional float angle_z = 3;
+}
+
+message MagnetometerData {
+  optional float magnetometer_x = 1;
+  optional float magnetometer_y = 2;
+  optional float magnetometer_z = 3;
+}
+
+message QuaternionData {
+  optional float c = 1;
+  optional float x_s = 2;
+  optional float y_s = 3;
+  optional float z_s = 4;
+}
+
+message AccelerometerData {
+  optional float acceleration_x = 1;
+  optional float acceleration_y = 2;
+  optional float acceleration_z = 3;
+}
+
+message UltraSoundDistanceSensorData { optional float distance = 1; }
+
+message TofDistanceSensorData { optional float distance = 1; }
+
+message Thermal8x8SensorsData { optional bytes thermal_sensor_data = 1; }
+
+message GpsData {
+  optional float latitude = 1;
+  optional float longitude = 2;
+  optional float altitude_m = 3;
+  optional float speed_mps = 4;
+  optional string utc_timestamp = 5;
+}
+
+// Next ID: 12
+message SensorsData {
+  optional GyroScopeData gyroscope_data = 1;
+  optional GravitySensorData gravity_sensor_data = 2;
+  optional EulerAngleData euler_data = 3;
+  optional AccelerometerData accelerometer_data = 4;
+  optional AccelerometerData linear_acceleration_data = 5;
+  optional QuaternionData quaternion_data = 6;
+  optional UltraSoundDistanceSensorData ultrasound_distance_sensor_data = 7;
+  optional TofDistanceSensorData tof_distance_sensor_data = 8;
+  optional Thermal8x8SensorsData thermal_8x8_sensor_data = 9;
+  optional GpsData gps_data = 10;
+  optional float temperature_data = 11;
+}
+
+// Next ID: 7
+message ControlRequest {
+  // Next ID: 6
+  enum RequestType {
+    UNKNOWN = 0;
+    READ_CAMERA = 1;
+    WRITE_MOTOR_CONTROLLER = 2;
+    READ_SENSORS_DATA = 3;
+    WRITE_SENSORS_DATA = 4;
+    READ_ALL_CAMERA_AND_SENSORS_DATA = 5;
+  }
+  // Next ID: 3
+  enum CameraType {
+    NONE = 0;
+    RGB_CAMERA = 1;
+    DEPTH_CAMERA = 2;
+  }
+  optional uint64 request_timestamp = 1;
+  optional string request_uuid = 2;
+  optional RequestType request_type = 3;
+  optional CameraType camera_type = 4;
+  optional MotorSpeedValues motor_speeds = 5;
+  optional SensorsData sensors_data = 6;
+}
